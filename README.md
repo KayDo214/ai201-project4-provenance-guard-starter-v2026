@@ -36,9 +36,17 @@
 
 ## What This Does
 
-<!-- The path a submission takes, from arriving to the label a reader sees.
-     Six or seven steps — this is the trace you wrote in Milestone 1. -->
+A submission moves through the service in this order:
 
+1. A client sends a `POST /submit` request containing the writer's `text` and `creator_id` as JSON.
+2. `app.py` reads the JSON and validates that the submitted text is usable.
+3. `detector.py` runs the model signal and produces a score based on how predictable the writing is to the language model.
+4. `stylometry.py` measures characteristics of the writing itself, such as sentence-length variation, vocabulary variety, and punctuation, and produces a second score.
+5. `scoring.py::combine_signals` combines the model score and style score into one confidence score.
+6. `scoring.py::score_to_label` maps that score to one of three reader-facing outcomes: likely human, unsure, or likely AI.
+7. The service creates a `content_id`, records the decision and its scores in the audit log, and returns the result as JSON to the client.
+
+If the writer believes the result is wrong, they can later send the `content_id` and their reasoning to `POST /appeal`. The service records the appeal and changes that item's status to `under_review`.
 
 
 ---
@@ -53,19 +61,27 @@
 
 ### Signal one — the model signal
 
-**What it measures:**
+**What it measures:**  
+The model signal measures how predictable the submitted text is to a local language model. Lower perplexity means the language model finds the sequence of words easier to predict, which is converted into a higher AI-like score.
 
-**Why that might differ between human and AI writing:**
+**Why that might differ between human and AI writing:**  
+AI-generated text often follows statistically common and predictable word patterns because language models generate text by repeatedly selecting likely next tokens. Human writing can contain more unusual choices, abrupt changes, or specific wording that is harder for the model to predict.
 
-**What it can't see:**
+**What it can't see:**  
+Predictability is not the same as authorship. A human who writes simple, regular, or highly predictable sentences may receive an AI-like score, while unusual or heavily edited AI-generated text may appear more human.
 
 ### Signal two — the style signal
 
-**What it measures:**
+**What it measures:**  
+The style signal measures properties of the text itself, such as variation in sentence length, vocabulary diversity, and punctuation patterns.
 
-**Why that might differ between human and AI writing:**
+**Why that might differ between human and AI writing:**  
+Human and AI writing may show different statistical patterns in sentence structure and word choice. Combining several of these features may provide information that the language-model signal does not capture.
 
-**What it can't see:**
+**What it can't see:**  
+Stylometry cannot understand the meaning or authorship of the text. Small surface-level edits such as changing punctuation, adding typos, or breaking sentences apart can change the style measurements without changing who actually wrote the content.
+
+
 
 ### The combining rule
 

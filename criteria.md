@@ -42,61 +42,48 @@ Two things worth knowing before you pick numbers:
   a **miss**.
 
 ---
-## 1.
+## 1. False positives
 
-<!-- Your criterion. It must name a number. -->
+Out of 10 clearly human-written pieces, at most 2 should be labeled as high-confidence AI.
 
-
-
-**Why this target:**
-
-
+**Why this target:**  
+A false accusation is more harmful than missing some AI-generated writing. I chose a maximum of 2 out of 10 because I want the system to be cautious while still allowing some room for uncertainty in an imperfect detector.
 
 ---
 
-## 2.
+## 2. Score separation
 
-<!-- Your criterion. -->
+The average combined score for clearly AI-written text should be at least 0.30 higher than the average combined score for clearly human-written text.
 
-
-
-**Why this target:**
-
-
+**Why this target:**  
+A very small difference would mean the system is barely separating the two groups. A gap of 0.30 should show that clearly AI and clearly human writing are meaningfully distinguishable by the combined signals.
 
 ---
 
-## 3.
+## 3. Label coverage
 
-<!-- Your criterion. -->
+Across 8 deliberately chosen test inputs, all three labels - high-confidence human, unsure, and high-confidence AI - should appear at least once.
 
-
-
-**Why this target:**
-
-
+**Why this target:**  
+All three labels should be reachable in normal use. Eight test inputs give enough room to include clearly human, clearly AI, and borderline examples without requiring a large test set.
 
 ---
 
-## 4.
+## 4. Appeal path
 
-<!-- Your criterion. -->
+100% of valid appeals should be recorded in the audit log and change the item's status to `under_review`.
 
-
-
-**Why this target:**
-
-
+**Why this target:**  
+Appeal handling is deterministic backend behavior rather than an uncertain model prediction. If an appeal is valid, the service should record it reliably every time.
 
 ---
 
-## 5.
+## 5. Bad input
 
-<!-- Your criterion. -->
+100% of test submissions with missing, empty, or non-string `text` should return an HTTP 400 response and should not crash the service.
 
-
-
-**Why this target:**
+**Why this target:**  
+Input validation is deterministic. Invalid input should always fail safely instead of causing unpredictable behavior or a server error.
 
 
 

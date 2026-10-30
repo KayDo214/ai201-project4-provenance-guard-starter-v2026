@@ -85,67 +85,49 @@ Stylometry cannot understand the meaning or authorship of the text. Small surfac
 
 ### The combining rule
 
-<!-- Write the rule in words, then give the numbers. What happens when the two
-     signals disagree? -->
-
-**The rule:** I give the model signal and style signal equal weight. If they disagree strongly,
-the combined score moves toward the middle because disagreement means uncertainty.
+**The rule:** I give the model signal and style signal equal weight. If they disagree strongly, the combined score moves toward the middle because disagreement means uncertainty.
 
 **The numbers:** 50% model signal + 50% style signal.
 
 **Where it lives:** `scoring.py::combine_signals`
 
-<!-- ⚠️ The grader checks your code against that line. If your rule lives
-     somewhere else, say where. -->
-
-**A case where my two signals split, and what my rule does with it:**
-
-
+**A case where my two signals split, and what my rule does with it:**  
+For one test submission, the model signal was `0.5631` while the style signal was `0.3435`. The model therefore leaned more AI-like while the style signal leaned more human-like. With equal weights, the combined score became `0.4533`, which moved the result into the unsure range rather than letting either signal decide by itself.
 
 ---
 
 ## Label Variants
 
-<!-- The exact text of all three labels, as a reader would see them, and the
-     score range each covers.
-
-     Write them for someone who has never heard the word "threshold". -->
-
 | Label | Score range | The exact text a reader sees |
 |---|---|---|
-| high-confidence human |  |  |
-| unsure |  |  |
-| high-confidence AI |  |  |
+| high-confidence human | 0.00–0.35 | Our signals suggest this writing was likely written by a person. |
+| unsure | above 0.35 and below 0.65 | We cannot confidently determine whether this writing was produced by a person or by AI. |
+| high-confidence AI | 0.65–1.00 | Our signals suggest this writing may be AI-generated. Automated detection can be wrong, and this result can be appealed. |
 
-**Why I worded the "unsure" one this way:**
-<!-- It's the hardest of the three. It has to admit uncertainty without
-     sounding like an accusation, because the person reading it may well have
-     written every word themselves. -->
-
-
+**Why I worded the "unsure" one this way:**  
+The unsure label does not accuse the writer or imply that AI was probably used. It states directly that the available signals are not strong enough to make a confident determination, which is important because a human writer could receive this result.
 
 ---
 
 ## Sample Run
 
-<!-- One submission and one appeal, pasted as text: the request, the response,
-     and the log entries. -->
-
 **A submission**
-
-<!-- The response needs content_id, guess, confidence, label, AND both
-     signal scores - model_score and style_score. Unit 8's tools read those
-     two off the response, so leaving them out costs you next unit's
-     diagnostics. -->
 
 ```bash
 $ curl -X POST http://127.0.0.1:5000/submit \
   -H "Content-Type: application/json" \
-  -d '{"text": "...", "creator_id": "..."}'
+  -d '{"text": "I got home late because the weather was terrible. I made some food, checked my notes for class, and then realized I had completely forgotten about an assignment!", "creator_id": "khanh"}'
 ```
 
 ```json
-
+{
+  "confidence": 0.45330000000000004,
+  "content_id": "c_5e9114ab643e",
+  "guess": "unsure",
+  "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+  "model_score": 0.5631,
+  "style_score": 0.3435
+}
 ```
 
 **An appeal**
@@ -153,11 +135,15 @@ $ curl -X POST http://127.0.0.1:5000/submit \
 ```bash
 $ curl -X POST http://127.0.0.1:5000/appeal \
   -H "Content-Type: application/json" \
-  -d '{"content_id": "...", "reasoning": "..."}'
+  -d '{"content_id": "c_5e9114ab643e", "reasoning": "I wrote this myself and believe the classification is incorrect."}'
 ```
 
 ```json
-
+{
+  "content_id": "c_5e9114ab643e",
+  "message": "Your appeal has been recorded.",
+  "status": "under_review"
+}
 ```
 
 **What the log shows afterwards**
@@ -167,7 +153,41 @@ $ curl "http://127.0.0.1:5000/log?limit=3"
 ```
 
 ```json
-
+{
+  "count": 3,
+  "entries": [
+    {
+      "combined_score": 0.45330000000000004,
+      "content_id": "c_746f63ddeec8",
+      "creator_id": "khanh",
+      "guess": null,
+      "label": null,
+      "model_score": 0.5631,
+      "status": "decided",
+      "style_score": 0.3435,
+      "timestamp": "2026-10-30T04:20:11+00:00"
+    },
+    {
+      "combined_score": 0.45330000000000004,
+      "content_id": "c_5e9114ab643e",
+      "creator_id": "khanh",
+      "guess": "unsure",
+      "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+      "model_score": 0.5631,
+      "status": "decided",
+      "style_score": 0.3435,
+      "timestamp": "2026-10-30T05:19:13+00:00"
+    },
+    {
+      "content_id": "c_5e9114ab643e",
+      "creator_id": "khanh",
+      "event": "appeal",
+      "reasoning": "I wrote this myself and believe the classification is incorrect.",
+      "status": "under_review",
+      "timestamp": "2026-10-30T05:19:45+00:00"
+    }
+  ]
+}
 ```
 
 ---
@@ -176,15 +196,15 @@ $ curl "http://127.0.0.1:5000/log?limit=3"
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked for an explanation of how the Flask API worked and how it compared with Node/Express because the backend syntax was unfamiliar to me.
+- *What came back:* I got a breakdown of the request flow from `curl` to Flask, JSON parsing, route handling, the detector, the audit log, and the response.
+- *What I changed:* I used the explanation to understand the architecture, then implemented and tested the `/submit` route myself in stages instead of treating the provided code as a black box.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked for help understanding and debugging the second stylometry signal and why `/submit` was still returning `style_score: null`.
+- *What came back:* I was shown how sentence-length spread, type-token ratio, and punctuation density contributed to the style score, and that the Flask route had not yet been wired to call `stylometry.style_signal`.
+- *What I changed:* I tested `stylometry.py` independently first, then connected it to `/submit`, added the 50/50 combining rule, and verified that the API returned both real signal scores and the combined confidence.
 
 <!-- ═══════════════════════ UNIT 8 — THE TEST ═══════════════════════ -->
 

@@ -167,22 +167,34 @@ def submit():
     import detector
     model_score = detector.model_signal(text)
 
+    import stylometry
+    import scoring
+
+    style_score = stylometry.style_signal(text)
+
+    combined_score = scoring.combine_signals(
+        model_score,
+        style_score,
+    )
+
     content_id = f"c_{uuid.uuid4().hex[:12]}"
 
     audit.log_decision(
-        content_id=content_id,
-        creator_id=creator_id,
-        model_score=model_score,
-        status="decided",
+    content_id=content_id,
+    creator_id=creator_id,
+    model_score=model_score,
+    style_score=style_score,
+    combined_score=combined_score,
+    status="decided",
     )
 
     return jsonify({
         "content_id": content_id,
         "guess": "unsure",
-        "confidence": 0.5,
+        "confidence": combined_score,
         "label": "not built yet",
         "model_score": model_score,
-        "style_score": None,
+        "style_score": style_score,
     }), 200
 
 

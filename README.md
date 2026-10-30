@@ -88,9 +88,10 @@ Stylometry cannot understand the meaning or authorship of the text. Small surfac
 <!-- Write the rule in words, then give the numbers. What happens when the two
      signals disagree? -->
 
-**The rule:**
+**The rule:** I give the model signal and style signal equal weight. If they disagree strongly,
+the combined score moves toward the middle because disagreement means uncertainty.
 
-**The numbers:**
+**The numbers:** 50% model signal + 50% style signal.
 
 **Where it lives:** `scoring.py::combine_signals`
 

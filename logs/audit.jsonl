@@ -1,2 +1,6 @@
 {"timestamp": "2026-10-29T16:40:23+00:00", "content_id": "c_a787fd2fda87", "creator_id": "khanh", "guess": null, "model_score": 0.0846, "style_score": null, "combined_score": null, "label": null, "status": "decided"}
 {"timestamp": "2026-10-30T02:25:27+00:00", "content_id": "c_f33f5b2b1f9e", "creator_id": "khanh", "guess": null, "model_score": 0.1461, "style_score": null, "combined_score": null, "label": null, "status": "decided"}
+{"timestamp": "2026-10-30T04:06:10+00:00", "content_id": "c_8eac910a748f", "creator_id": "khanh", "guess": null, "model_score": 0.5631, "style_score": null, "combined_score": null, "label": null, "status": "decided"}
+{"timestamp": "2026-10-30T04:12:19+00:00", "content_id": "c_a020fdefd5cf", "creator_id": "khanh", "guess": null, "model_score": 0.5631, "style_score": null, "combined_score": null, "label": null, "status": "decided"}
+{"timestamp": "2026-10-30T04:18:23+00:00", "content_id": "c_cf549349f1bc", "creator_id": "khanh", "guess": null, "model_score": 0.5631, "style_score": null, "combined_score": null, "label": null, "status": "decided"}
+{"timestamp": "2026-10-30T04:20:11+00:00", "content_id": "c_746f63ddeec8", "creator_id": "khanh", "guess": null, "model_score": 0.5631, "style_score": 0.3435, "combined_score": 0.45330000000000004, "label": null, "status": "decided"}

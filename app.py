@@ -177,55 +177,72 @@ def submit():
         style_score,
     )
 
+    guess, label = scoring.score_to_label(combined_score)
+
     content_id = f"c_{uuid.uuid4().hex[:12]}"
 
     audit.log_decision(
     content_id=content_id,
     creator_id=creator_id,
+    guess=guess,
     model_score=model_score,
     style_score=style_score,
     combined_score=combined_score,
+    label=label,
     status="decided",
     )
 
     return jsonify({
-        "content_id": content_id,
-        "guess": "unsure",
-        "confidence": combined_score,
-        "label": "not built yet",
-        "model_score": model_score,
-        "style_score": style_score,
+    "content_id": content_id,
+    "guess": guess,
+    "confidence": combined_score,
+    "label": label,
+    "model_score": model_score,
+    "style_score": style_score,
     }), 200
 
 
 @app.post("/appeal")
 def appeal():
-    """
-    A writer says you got it wrong. ← TODO — Milestone 5
-
-    Expects JSON:
-        {"content_id": "...", "reasoning": "..."}
-
-    Should:
-      1. Check the content_id actually exists — `audit.entries_for(id)` tells
-         you. A typo here fails silently and looks like a broken endpoint,
-         which is the single most common way this milestone eats an hour.
-      2. Record the appeal with `audit.log_appeal(...)`, which moves the item
-         to `under_review`.
-      3. Confirm to the writer. No automatic re-checking needed.
-
-    This is the smallest endpoint in the project and the one that matters most
-    to the person on the other end. It's the only thing standing between a
-    wrong accusation and nothing at all.
-    """
     payload = request.get_json(silent=True) or {}
 
-    # TODO: delete this and build the route.
+    content_id = payload.get("content_id")
+    reasoning = payload.get("reasoning")
+
+    if not isinstance(content_id, str) or not content_id.strip():
+        return jsonify({
+            "error": "bad_request",
+            "message": 'Send a valid "content_id".'
+        }), 400
+
+    if not isinstance(reasoning, str) or not reasoning.strip():
+        return jsonify({
+            "error": "bad_request",
+            "message": 'Send non-empty "reasoning".'
+        }), 400
+
+    entries = audit.entries_for(content_id)
+
+    if not entries:
+        return jsonify({
+            "error": "not_found",
+            "message": "No submission exists with that content_id."
+        }), 404
+
+    original = entries[0]
+    creator_id = original.get("creator_id", "unknown")
+
+    audit.log_appeal(
+        content_id=content_id,
+        creator_id=creator_id,
+        reasoning=reasoning,
+    )
+
     return jsonify({
-        "error": "not_implemented",
-        "message": "POST /appeal isn't built yet — see the TODO in app.py.",
-        "you_sent": payload,
-    }), 501
+        "content_id": content_id,
+        "status": "under_review",
+        "message": "Your appeal has been recorded."
+    }), 200
 
 
 # ── Already works ─────────────────────────────────────────────────────────────

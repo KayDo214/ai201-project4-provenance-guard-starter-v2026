@@ -151,7 +151,10 @@ def health():
 # ── YOU BUILD THIS ────────────────────────────────────────────────────────────
 
 @app.post("/submit")
-# @limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")
+@limiter.limit(
+    f"{config.RATE_LIMIT_PER_MINUTE}/minute;"
+    f"{config.RATE_LIMIT_PER_DAY}/day"
+)
 def submit():
     payload = request.get_json(silent=True) or {}
 
@@ -159,6 +162,11 @@ def submit():
     creator_id = payload.get("creator_id", "unknown")
 
     if not isinstance(text, str) or not text.strip():
+        audit.log_rejection(
+        creator_id=creator_id,
+        reason="invalid_text",
+        )
+
         return jsonify({
             "error": "bad_request",
             "message": 'Send JSON with a non-empty "text".'

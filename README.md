@@ -212,25 +212,21 @@ $ curl "http://127.0.0.1:5000/log?limit=3"
 
 ## Rate Limiting
 
-**My limits:** ___ per minute, ___ per day
+**My limits:** 10 per minute, 200 per day
 
-**Why those numbers and not others:**
-<!-- Think about two people: a real writer submitting their own work a few
-     times an hour, and a script sending a thousand variations to map your
-     thresholds. Your numbers have to be liveable for the first and hostile to
-     the second. -->
+**Why those numbers and not others:**  
+Ten submissions per minute gives a real writer enough room to retry or revise several times without being blocked, while making rapid automated probing harder. Two hundred submissions per day is much higher than normal manual use but still prevents one caller from sending thousands of requests.
 
-**What a caller counts as:** <!-- per address, or per creator_id? They fail
-differently — one script can look like a thousand callers, and one household
-can look like one. -->
+**What a caller counts as:**  
+A caller is identified by `creator_id` when a valid one is provided. If no usable `creator_id` is available, the service falls back to the caller's network address.
 
 **The run of status codes when I pushed past it:**
 
-<!-- python run_attacks.py --flood 15 -->
-
+```text
+200 200 200 200 200 200 200 200 200 200 429 429 429 429 429
 ```
 
-```
+The first ten submissions were accepted. Requests 11 through 15 were rejected with HTTP 429 because the caller exceeded the 10-per-minute limit.
 
 ---
 

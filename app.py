@@ -156,7 +156,18 @@ def health():
     f"{config.RATE_LIMIT_PER_DAY}/day"
 )
 def submit():
-    payload = request.get_json(silent=True) or {}
+    payload = request.get_json(silent=True)
+
+    if not isinstance(payload, dict):
+        audit.log_rejection(
+            creator_id="unknown",
+            reason="invalid_json_body",
+        )
+
+        return jsonify({
+            "error": "bad_request",
+            "message": "Request body must be a JSON object."
+        }), 400
 
     text = payload.get("text")
     creator_id = payload.get("creator_id", "unknown")
@@ -173,7 +184,19 @@ def submit():
         }), 400
 
     import detector
-    model_score = detector.model_signal(text)
+
+    try:
+        model_score = detector.model_signal(text)
+    except ValueError:
+        audit.log_rejection(
+            creator_id=creator_id,
+            reason="text_too_short",
+        )
+
+        return jsonify({
+            "error": "bad_request",
+            "message": "Text is too short to score."
+        }), 400
 
     import stylometry
     import scoring

@@ -185,14 +185,6 @@ $ curl "http://127.0.0.1:5000/log?limit=3"
       "reasoning": "I wrote this myself and believe the classification is incorrect.",
       "status": "under_review",
       "timestamp": "2026-10-30T05:19:45+00:00"
-    },
-    {
-      "creator_id": "attacker_flood",
-      "event": "rejected",
-      "limit": "10 per 1 minute",
-      "reason": "rate_limited",
-      "status": "rejected",
-      "timestamp": "2026-11-05T01:57:49+00:00"
     }
   ]
 }
@@ -242,62 +234,62 @@ The first ten submissions were accepted. Requests 11 through 15 were rejected wi
 
 | ID | Family | Targeting | Status | Content ID | Guess | Score | Verdict |
 |---|---|---|---|---|---|---|---|
-| EV01 | evasion | signal two: typos raise word variety | 200 | `c_4dc8a6d1b454` | unsure | 0.371 |  |
-| EV02 | evasion | signal two: broken-up sentences raise length spread | 200 | `c_f66c9747b1ab` | unsure | 0.482 |  |
-| EV03 | evasion | signal two: a pasted quotation changes the shape | 200 | `c_aba8cefde401` | unsure | 0.572 |  |
-| EV04 | evasion | signal one: unusual words raise perplexity | 200 | `c_6a3a3eebf867` | unsure | 0.583 |  |
-| EV05 | evasion | both signals: heavy human editing pass | 200 | `c_da43a6df7d76` | human | 0.349 |  |
-| EV06 | evasion | signal two: one very long sentence and one very short | 200 | `c_f2061a8821c3` | unsure | 0.468 |  |
-| EV07 | evasion | signal two: padding with punctuation | 200 | `c_28ce63957e55` | unsure | 0.498 |  |
-| EV08 | evasion | signal one: text below the token window | 200 | `c_462929e67ed1` | unsure | 0.409 |  |
-| EV09 | evasion | both: AI text with a human opening paragraph bolted on | 200 | `c_e816d4d0e9c5` | unsure | 0.588 |  |
-| EV10 | evasion | signal two: repeated stanza structure | 200 | `c_683177d0a1a6` | ai | 0.871 |  |
-| FP01 | false_positive | plain, clear human writing with no flourishes | 200 | `c_45770e619585` | unsure | 0.598 |  |
-| FP02 | false_positive | human writing in a formal register | 200 | `c_b283dca34580` | ai | 0.700 |  |
-| FP03 | false_positive | a non-native English speaker writing carefully | 200 | `c_999502180bce` | ai | 0.727 |  |
-| FP04 | false_positive | a student essay written to a rubric | 200 | `c_ccf59e927f81` | ai | 0.708 |  |
-| FP05 | false_positive | technical documentation written by a person | 200 | `c_58ad1ebf327d` | ai | 0.733 |  |
-| FP06 | false_positive | a person imitating a formal template | 200 | `c_926562a8d52d` | ai | 0.719 |  |
-| FP07 | false_positive | human writing that repeats a phrase deliberately | 200 | `c_cb25fed9891f` | ai | 0.714 |  |
-| FP08 | false_positive | very short genuine human submission | 200 | `c_a27985dc2da1` | unsure | 0.422 |  |
-| PI01 | prompt_injection | instruction to ignore the check | 200 | `c_47fc8548e205` | unsure | 0.465 |  |
-| PI02 | prompt_injection | instruction disguised as a system message | 200 | `c_a5d5eda6fee9` | human | 0.297 |  |
-| PI03 | prompt_injection | instruction wrapped in the writer's voice | 200 | `c_51d93819483f` | unsure | 0.573 |  |
-| PI04 | prompt_injection | attempt to make the label text hostile | 200 | `c_84f3b76eb1b8` | unsure | 0.507 |  |
-| PI05 | prompt_injection | attempt to inject into the audit log | 200 | `c_933c59e94dbb` | unsure | 0.414 |  |
-| PI06 | prompt_injection | instruction plus real human text | 200 | `c_5e9c6c0487a0` | unsure | 0.572 |  |
-| MF01 | malformed | text is only whitespace | 400 | `—` | — | — |  |
+| EV01 | evasion | signal two: typos raise word variety | 200 | `c_4dc8a6d1b454` | unsure | 0.371 | BROKE |
+| EV02 | evasion | signal two: broken-up sentences raise length spread | 200 | `c_f66c9747b1ab` | unsure | 0.482 | BROKE |
+| EV03 | evasion | signal two: a pasted quotation changes the shape | 200 | `c_aba8cefde401` | unsure | 0.572 | BROKE |
+| EV04 | evasion | signal one: unusual words raise perplexity | 200 | `c_6a3a3eebf867` | unsure | 0.583 | BROKE |
+| EV05 | evasion | both signals: heavy human editing pass | 200 | `c_da43a6df7d76` | human | 0.349 | BROKE |
+| EV06 | evasion | signal two: one very long sentence and one very short | 200 | `c_f2061a8821c3` | unsure | 0.468 | BROKE |
+| EV07 | evasion | signal two: padding with punctuation | 200 | `c_28ce63957e55` | unsure | 0.498 | BROKE |
+| EV08 | evasion | signal one: text below the token window | 200 | `c_462929e67ed1` | unsure | 0.409 | BROKE |
+| EV09 | evasion | both: AI text with a human opening paragraph bolted on | 200 | `c_e816d4d0e9c5` | unsure | 0.588 | BROKE |
+| EV10 | evasion | signal two: repeated stanza structure | 200 | `c_683177d0a1a6` | ai | 0.871 | HELD |
+| FP01 | false_positive | plain, clear human writing with no flourishes | 200 | `c_45770e619585` | unsure | 0.598 | HELD |
+| FP02 | false_positive | human writing in a formal register | 200 | `c_b283dca34580` | ai | 0.700 | BROKE |
+| FP03 | false_positive | a non-native English speaker writing carefully | 200 | `c_999502180bce` | ai | 0.727 | BROKE |
+| FP04 | false_positive | a student essay written to a rubric | 200 | `c_ccf59e927f81` | ai | 0.708 | BROKE |
+| FP05 | false_positive | technical documentation written by a person | 200 | `c_58ad1ebf327d` | ai | 0.733 | BROKE |
+| FP06 | false_positive | a person imitating a formal template | 200 | `c_926562a8d52d` | ai | 0.719 | BROKE |
+| FP07 | false_positive | human writing that repeats a phrase deliberately | 200 | `c_cb25fed9891f` | ai | 0.714 | BROKE |
+| FP08 | false_positive | very short genuine human submission | 200 | `c_a27985dc2da1` | unsure | 0.422 | HELD |
+| PI01 | prompt_injection | instruction to ignore the check | 200 | `c_47fc8548e205` | unsure | 0.465 | HELD |
+| PI02 | prompt_injection | instruction disguised as a system message | 200 | `c_a5d5eda6fee9` | human | 0.297 | HELD |
+| PI03 | prompt_injection | instruction wrapped in the writer's voice | 200 | `c_51d93819483f` | unsure | 0.573 | HELD |
+| PI04 | prompt_injection | attempt to make the label text hostile | 200 | `c_84f3b76eb1b8` | unsure | 0.507 | HELD |
+| PI05 | prompt_injection | attempt to inject into the audit log | 200 | `c_933c59e94dbb` | unsure | 0.414 | HELD |
+| PI06 | prompt_injection | instruction plus real human text | 200 | `c_5e9c6c0487a0` | unsure | 0.572 | HELD |
+| MF01 | malformed | text is only whitespace | 400 | `—` | — | — | HELD |
 | MF02 | malformed | text is a single character | 500 | `—` | — | — | BROKE |
-| MF03 | malformed | text is control characters | 200 | `c_a70017f198a4` | human | 0.333 |  |
-| MF04 | malformed | text is only punctuation | 200 | `c_bf79c4195db3` | unsure | 0.506 |  |
-| MF05 | malformed | text is a very long single word | 200 | `c_e1c0b06f4e52` | ai | 0.832 |  |
-| MF06 | malformed | text is emoji only | 200 | `c_0fb6fccbb79c` | ai | 0.998 |  |
-| MF07 | malformed | text is right-to-left script | 200 | `c_1faee9a381dc` | ai | 0.953 |  |
-| MF08 | malformed | text is 60,000 characters | 200 | `c_c0463685251f` | ai | 0.905 |  |
-| RQ01 | malformed | no text field at all | 400 | `—` | — | — |  |
-| RQ02 | malformed | no creator_id | 200 | `c_b586a5b7b97d` | unsure | 0.453 |  |
-| RQ03 | malformed | text is a number | 400 | `—` | — | — |  |
-| RQ04 | malformed | text is a list | 400 | `—` | — | — |  |
-| RQ05 | malformed | text is null | 400 | `—` | — | — |  |
-| RQ06 | malformed | creator_id is an object | 200 | `c_e322824c86d7` | unsure | 0.358 |  |
+| MF03 | malformed | text is control characters | 200 | `c_a70017f198a4` | human | 0.333 | HELD |
+| MF04 | malformed | text is only punctuation | 200 | `c_bf79c4195db3` | unsure | 0.506 | HELD |
+| MF05 | malformed | text is a very long single word | 200 | `c_e1c0b06f4e52` | ai | 0.832 | HELD |
+| MF06 | malformed | text is emoji only | 200 | `c_0fb6fccbb79c` | ai | 0.998 | HELD |
+| MF07 | malformed | text is right-to-left script | 200 | `c_1faee9a381dc` | ai | 0.953 | HELD |
+| MF08 | malformed | text is 60,000 characters | 200 | `c_c0463685251f` | ai | 0.905 | HELD |
+| RQ01 | malformed | no text field at all | 400 | `—` | — | — | HELD |
+| RQ02 | malformed | no creator_id | 200 | `c_b586a5b7b97d` | unsure | 0.453 | HELD |
+| RQ03 | malformed | text is a number | 400 | `—` | — | — | HELD |
+| RQ04 | malformed | text is a list | 400 | `—` | — | — | HELD |
+| RQ05 | malformed | text is null | 400 | `—` | — | — | HELD |
+| RQ06 | malformed | creator_id is an object | 200 | `c_e322824c86d7` | unsure | 0.358 | HELD |
 | RQ07 | malformed | body is a JSON array, not an object | 500 | `—` | — | — | BROKE |
-| RQ08 | malformed | body is unparseable JSON | 400 | `—` | — | — |  |
-| RQ09 | malformed | body is empty | 400 | `—` | — | — |  |
-| RQ10 | malformed | body is form-encoded, not JSON | 400 | `—` | — | — |  |
-| RQ11 | malformed | body is JSON claiming to be plain text | 400 | `—` | — | — |  |
-| RQ12 | malformed | deeply nested JSON | 400 | `—` | — | — |  |
-| FL01_01 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_bd26ce0e05ca` | human | 0.348 |  |
-| FL01_02 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_0b0847794c6a` | human | 0.348 |  |
-| FL01_03 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_6abc260cb5b0` | human | 0.348 |  |
-| FL01_04 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_a1d93afeb7f1` | human | 0.348 |  |
-| FL01_05 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_b7841ed06027` | human | 0.348 |  |
-| FL01_06 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_46cc38a8cdaf` | human | 0.348 |  |
-| FL01_07 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_adc69e8c2cd0` | human | 0.348 |  |
-| FL01_08 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_ab79bf9021d7` | human | 0.348 |  |
-| FL01_09 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_b89fccf08bb7` | human | 0.348 |  |
-| FL01_10 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_0bdf72826384` | human | 0.348 |  |
-| FL01_11 | flood_same_creator | 20 rapid submissions from one creator | 429 | `—` | — | — |  |
-| FL01_12 | flood_same_creator | 20 rapid submissions from one creator | 429 | `—` | — | — |  |
+| RQ08 | malformed | body is unparseable JSON | 400 | `—` | — | — | HELD |
+| RQ09 | malformed | body is empty | 400 | `—` | — | — | HELD |
+| RQ10 | malformed | body is form-encoded, not JSON | 400 | `—` | — | — | HELD |
+| RQ11 | malformed | body is JSON claiming to be plain text | 400 | `—` | — | — | HELD |
+| RQ12 | malformed | deeply nested JSON | 400 | `—` | — | — | HELD |
+| FL01_01 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_bd26ce0e05ca` | human | 0.348 | HELD |
+| FL01_02 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_0b0847794c6a` | human | 0.348 | HELD |
+| FL01_03 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_6abc260cb5b0` | human | 0.348 | HELD |
+| FL01_04 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_a1d93afeb7f1` | human | 0.348 | HELD |
+| FL01_05 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_b7841ed06027` | human | 0.348 | HELD |
+| FL01_06 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_46cc38a8cdaf` | human | 0.348 | HELD |
+| FL01_07 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_adc69e8c2cd0` | human | 0.348 | HELD |
+| FL01_08 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_ab79bf9021d7` | human | 0.348 | HELD |
+| FL01_09 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_b89fccf08bb7` | human | 0.348 | HELD |
+| FL01_10 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_0bdf72826384` | human | 0.348 | HELD |
+| FL01_11 | flood_same_creator | 20 rapid submissions from one creator | 429 | `—` | — | — | HELD |
+| FL01_12 | flood_same_creator | 20 rapid submissions from one creator | 429 | `—` | — | — | HELD |
 
 
 
@@ -306,6 +298,7 @@ The first ten submissions were accepted. Requests 11 through 15 were rejected wi
 <!-- Choose entries that show the interesting failures, not the ten easiest. -->
 
 ```json
+[
 {
       "combined_score": 0.6999,
       "content_id": "c_b283dca34580",
@@ -400,7 +393,16 @@ The first ten submissions were accepted. Requests 11 through 15 were rejected wi
       "reason": "invalid_text",
       "status": "rejected",
       "timestamp": "2026-11-05T01:57:48+00:00"
+    },
+    {
+      "creator_id": "attacker_flood",
+      "event": "rejected",
+      "limit": "10 per 1 minute",
+      "reason": "rate_limited",
+      "status": "rejected",
+      "timestamp": "2026-11-05T01:57:49+00:00"
     }
+]
 ```
 
 **The single worst outcome** — the one I'd least want to explain to a writer
@@ -423,8 +425,12 @@ It was genuine human writing from a non-native English speaker writing carefully
 | 4. Appeal path | 100% of valid appeals logged and status changed to `under_review` | MET | MET | MET | MET |
 | 5. Bad input | 100% missing, empty, or non-string text returns HTTP 400 | 3/3 → 400 | 3/3 → 400 | 3/3 → 400 | MET |
 
-**Real output from one trial**, pasted as text, naming the file and function
-that produced it:
+**Real output from Trial 1 for all five criteria:** Criteria 1, 2, 3, and 5
+came from `results/run_2026-11-05_2222_before.md`, produced by
+`run_eval.py::main`. Criterion 4 was tested manually using `POST /submit`
+and `POST /appeal`.
+
+**Criterion 1 — False positives (Trial 1)**
 
 ```json
 [
@@ -521,6 +527,233 @@ that produced it:
 ]
 ```
 
+**Criterion 2 — Score separation (Trial 1, human inputs)**
+
+```json
+[
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.5447,
+    "model_score": 0.5797,
+    "style_score": 0.5097,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "I am a big fan or JRPGs. It is not an exaggeration when I say it is on"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.5708500000000001,
+    "model_score": 0.6229,
+    "style_score": 0.5188,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "Exams are not a good way to show your proficiency in a specific area. "
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.6174999999999999,
+    "model_score": 0.6583,
+    "style_score": 0.5767,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "I'd probably want to live in a large city more since it is much more c"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.62165,
+    "model_score": 0.6916,
+    "style_score": 0.5517,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "I have always been a big fan of Bun Cha. It's literally one of the bes"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.60325,
+    "model_score": 0.719,
+    "style_score": 0.4875,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "For me, what makes a video game memorable lies in both its story and g"
+  }
+]
+```
+
+**Criterion 2 — Score separation (Trial 1, AI inputs)**
+
+```json
+[
+  {
+    "status": 200,
+    "guess": "ai",
+    "confidence": 0.71675,
+    "model_score": 0.9097,
+    "style_score": 0.5238,
+    "label": "Our signals suggest this writing may be AI-generated. Automated detection can be wrong, and this result can be appealed.",
+    "sent": "Regular exercise provides a wide range of physical and mental health b"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.61975,
+    "model_score": 0.7587,
+    "style_score": 0.4808,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "Social media offers both significant advantages and important drawback"
+  },
+  {
+    "status": 200,
+    "guess": "ai",
+    "confidence": 0.74455,
+    "model_score": 0.8834,
+    "style_score": 0.6057,
+    "label": "Our signals suggest this writing may be AI-generated. Automated detection can be wrong, and this result can be appealed.",
+    "sent": "Photosynthesis is the process through which plants convert light energ"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.64645,
+    "model_score": 0.8129,
+    "style_score": 0.48,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "Time management is particularly important for college students because"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.575,
+    "model_score": 0.6319,
+    "style_score": 0.5181,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "An engaging video game usually combines several elements that work tog"
+  }
+]
+```
+
+**Criterion 3 — Label coverage (Trial 1)**
+
+```json
+[
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.5447,
+    "model_score": 0.5797,
+    "style_score": 0.5097,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "I am a big fan or JRPGs. It is not an exaggeration when I say it is on"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.62165,
+    "model_score": 0.6916,
+    "style_score": 0.5517,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "I have always been a big fan of Bun Cha. It's literally one of the bes"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.4505,
+    "model_score": 0.5291,
+    "style_score": 0.3719,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "Life in college is tougher than in highschool. Back then, I was spammi"
+  },
+  {
+    "status": 200,
+    "guess": "ai",
+    "confidence": 0.74455,
+    "model_score": 0.8834,
+    "style_score": 0.6057,
+    "label": "Our signals suggest this writing may be AI-generated. Automated detection can be wrong, and this result can be appealed.",
+    "sent": "Photosynthesis is the process through which plants convert light energ"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.64645,
+    "model_score": 0.8129,
+    "style_score": 0.48,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "Time management is particularly important for college students because"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.575,
+    "model_score": 0.6319,
+    "style_score": 0.5181,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "An engaging video game usually combines several elements that work tog"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.6023000000000001,
+    "model_score": 0.6534,
+    "style_score": 0.5512,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "College can be difficult because there are a lot of things happening a"
+  },
+  {
+    "status": 200,
+    "guess": "unsure",
+    "confidence": 0.6314,
+    "model_score": 0.6974,
+    "style_score": 0.5654,
+    "label": "We cannot confidently determine whether this writing was produced by a person or by AI.",
+    "sent": "Games can be memorable for different reasons. Some have really good st"
+  }
+]
+```
+
+**Criterion 4 — Appeal path (Trial 1)**
+
+```json
+{
+  "content_id": "c_5e9114ab643e",
+  "message": "Your appeal has been recorded.",
+  "status": "under_review"
+}
+```
+
+**Criterion 5 — Bad input (Trial 1)**
+
+```json
+[
+  {
+    "status": 400,
+    "guess": null,
+    "confidence": null,
+    "model_score": null,
+    "style_score": null,
+    "label": null,
+    "sent": "{\"creator_id\": \"eval_bad_missing\"}"
+  },
+  {
+    "status": 400,
+    "guess": null,
+    "confidence": null,
+    "model_score": null,
+    "style_score": null,
+    "label": null,
+    "sent": "(empty text)"
+  },
+  {
+    "status": 400,
+    "guess": null,
+    "confidence": null,
+    "model_score": null,
+    "style_score": null,
+    "label": null,
+    "sent": "{\"text\": 123, \"creator_id\": \"eval_bad_nonstring\"}"
+  }
+]
+```
+
 **Diagnoses**
 
 ### Criterion 2 — Score separation: MISSED
@@ -557,35 +790,115 @@ The failures are not all the same problem. MF02 and RQ07 are input-contract fail
 ## The Improvement
 
 **What I changed:**
+I strengthened the input-validation boundary in `POST /submit`. The route now verifies that the parsed request body is a JSON object before accessing fields from it. It also catches text that is too short for the detector to score and rejects that request with HTTP 400 instead of allowing the detector exception to become an HTTP 500 response.
 
 **Which diagnosis pointed at it:**
+The MF02 and RQ07 failures both pointed to inconsistent assumptions between the route and downstream code. MF02 passed the route's non-empty-string check but was too short for `detector.py`, which raised a `ValueError`. RQ07 provided valid JSON in the form of an array, but `/submit` assumed every parsed JSON body was a dictionary and called `.get()` on a list. Both failures therefore came from insufficient validation at the service boundary.
 
 ### Attack Run — After
 
-<!-- Same format. `run_attacks.py --label after` -->
+| ID | Family | Targeting | Status | Content ID | Guess | Score | Verdict |
+|---|---|---|---|---|---|---|---|
+| EV01 | evasion | signal two: typos raise word variety | 200 | `c_b473379a3b6e` | unsure | 0.371 | BROKE |
+| EV02 | evasion | signal two: broken-up sentences raise length spread | 200 | `c_6e750346735c` | unsure | 0.482 | BROKE |
+| EV03 | evasion | signal two: a pasted quotation changes the shape | 200 | `c_2ecee9349a0c` | unsure | 0.572 | BROKE |
+| EV04 | evasion | signal one: unusual words raise perplexity | 200 | `c_b83b4378d59e` | unsure | 0.583 | BROKE |
+| EV05 | evasion | both signals: heavy human editing pass | 200 | `c_183e60ab525d` | human | 0.349 | BROKE |
+| EV06 | evasion | signal two: one very long sentence and one very short | 200 | `c_31cdab0074bd` | unsure | 0.468 | BROKE |
+| EV07 | evasion | signal two: padding with punctuation | 200 | `c_d5ecef7c8aa5` | unsure | 0.498 | BROKE |
+| EV08 | evasion | signal one: text below the token window | 200 | `c_d53db2bf36ce` | unsure | 0.409 | BROKE |
+| EV09 | evasion | both: AI text with a human opening paragraph bolted on | 200 | `c_c9542b60b102` | unsure | 0.588 | BROKE |
+| EV10 | evasion | signal two: repeated stanza structure | 200 | `c_27417fda01f8` | ai | 0.871 | HELD |
+| FP01 | false_positive | plain, clear human writing with no flourishes | 200 | `c_934c466d04c2` | unsure | 0.598 | HELD |
+| FP02 | false_positive | human writing in a formal register | 200 | `c_60a2a0658de4` | ai | 0.700 | BROKE |
+| FP03 | false_positive | a non-native English speaker writing carefully | 200 | `c_3f8148523379` | ai | 0.727 | BROKE |
+| FP04 | false_positive | a student essay written to a rubric | 200 | `c_c0ad03aeab8c` | ai | 0.708 | BROKE |
+| FP05 | false_positive | technical documentation written by a person | 200 | `c_6a4bfe0ef9ba` | ai | 0.733 | BROKE |
+| FP06 | false_positive | a person imitating a formal template | 200 | `c_2c7025803566` | ai | 0.719 | BROKE |
+| FP07 | false_positive | human writing that repeats a phrase deliberately | 200 | `c_6d67d681f861` | ai | 0.714 | BROKE |
+| FP08 | false_positive | very short genuine human submission | 200 | `c_42855a988e79` | unsure | 0.422 | HELD |
+| PI01 | prompt_injection | instruction to ignore the check | 200 | `c_ee883de2e7cf` | unsure | 0.465 | HELD |
+| PI02 | prompt_injection | instruction disguised as a system message | 200 | `c_63b874fa7875` | human | 0.297 | HELD |
+| PI03 | prompt_injection | instruction wrapped in the writer's voice | 200 | `c_85723acd0fd4` | unsure | 0.573 | HELD |
+| PI04 | prompt_injection | attempt to make the label text hostile | 200 | `c_0d9f6868afb7` | unsure | 0.507 | HELD |
+| PI05 | prompt_injection | attempt to inject into the audit log | 200 | `c_4fdfc4d12c69` | unsure | 0.414 | HELD |
+| PI06 | prompt_injection | instruction plus real human text | 200 | `c_776cc7b8c710` | unsure | 0.572 | HELD |
+| MF01 | malformed | text is only whitespace | 400 | `—` | — | — | HELD |
+| MF02 | malformed | text is a single character | 400 | `—` | — | — | HELD |
+| MF03 | malformed | text is control characters | 200 | `c_642867205271` | human | 0.333 | HELD |
+| MF04 | malformed | text is only punctuation | 200 | `c_b26396616e00` | unsure | 0.506 | HELD |
+| MF05 | malformed | text is a very long single word | 200 | `c_b456bf8a759f` | ai | 0.832 | HELD |
+| MF06 | malformed | text is emoji only | 200 | `c_9fa4457e2304` | ai | 0.998 | HELD |
+| MF07 | malformed | text is right-to-left script | 200 | `c_47b7294b4e00` | ai | 0.953 | HELD |
+| MF08 | malformed | text is 60,000 characters | 200 | `c_2dd9a2838a0f` | ai | 0.905 | HELD |
+| RQ01 | malformed | no text field at all | 400 | `—` | — | — | HELD |
+| RQ02 | malformed | no creator_id | 200 | `c_fdbf54470e8d` | unsure | 0.453 | HELD |
+| RQ03 | malformed | text is a number | 400 | `—` | — | — | HELD |
+| RQ04 | malformed | text is a list | 400 | `—` | — | — | HELD |
+| RQ05 | malformed | text is null | 400 | `—` | — | — | HELD |
+| RQ06 | malformed | creator_id is an object | 200 | `c_669b438fc2d4` | unsure | 0.358 | HELD |
+| RQ07 | malformed | body is a JSON array, not an object | 400 | `—` | — | — | HELD |
+| RQ08 | malformed | body is unparseable JSON | 400 | `—` | — | — | HELD |
+| RQ09 | malformed | body is empty | 400 | `—` | — | — | HELD |
+| RQ10 | malformed | body is form-encoded, not JSON | 400 | `—` | — | — | HELD |
+| RQ11 | malformed | body is JSON claiming to be plain text | 400 | `—` | — | — | HELD |
+| RQ12 | malformed | deeply nested JSON | 400 | `—` | — | — | HELD |
+| FL01_01 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_a780f7a7f6ff` | human | 0.348 | HELD |
+| FL01_02 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_c548a865d63f` | human | 0.348 | HELD |
+| FL01_03 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_904216b41faf` | human | 0.348 | HELD |
+| FL01_04 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_4022345255c7` | human | 0.348 | HELD |
+| FL01_05 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_019a058555f9` | human | 0.348 | HELD |
+| FL01_06 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_e5aea592b478` | human | 0.348 | HELD |
+| FL01_07 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_173955b20dd4` | human | 0.348 | HELD |
+| FL01_08 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_9025f0a8e13f` | human | 0.348 | HELD |
+| FL01_09 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_3898beac2c7c` | human | 0.348 | HELD |
+| FL01_10 | flood_same_creator | 20 rapid submissions from one creator | 200 | `c_e362ad14bc8e` | human | 0.348 | HELD |
+| FL01_11 | flood_same_creator | 20 rapid submissions from one creator | 429 | `—` | — | — | HELD |
+| FL01_12 | flood_same_creator | 20 rapid submissions from one creator | 429 | `—` | — | — | HELD |
 
+### Run Log — After
 
+| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. False positives | At most 2/10 human-written pieces labeled high-confidence AI | 0/10 AI | 0/10 AI | 0/10 AI | MET |
+| 2. Score separation | AI mean at least 0.30 above human mean | 0.0689 | 0.0689 | 0.0689 | MISSED |
+| 3. Label coverage | All three labels appear across 8 inputs | Human missing | Human missing | Human missing | MISSED |
+| 4. Appeal path | 100% of valid appeals logged and status changed to `under_review` | MET | MET | MET | MET |
+| 5. Bad input | 100% missing, empty, or non-string text returns HTTP 400 | 3/3 → 400 | 3/3 → 400 | 3/3 → 400 | MET |
+
+The most important changes from the baseline were:
+
+- MF02: HTTP 500 before → HTTP 400 after
+- RQ07: HTTP 500 before → HTTP 400 after
+- Automatically detected broken attacks: 2 before → 0 after
+- Flood behavior remained unchanged: the first 10 submissions from the same creator were accepted and later submissions were rejected with HTTP 429.
 
 **Did it help, and how do I know:**
-
-<!-- Widening the unsure band usually fixes one problem and creates another.
-     Reporting that trade honestly is worth full credit. -->
-
-
+Yes. Before the improvement, MF02 and RQ07 both caused HTTP 500 errors. After strengthening the `/submit` validation boundary, both attacks returned HTTP 400 instead, and the after attack run reported zero automatically broken attacks. The detector's scoring behavior remained essentially unchanged, which is expected because I changed input validation rather than either detection signal, the combining rule, or the label thresholds.
 
 ---
 
 ## What's Still Broken
 
-<!-- For each attack still getting through and each criterion still missed:
-     what you'd do, and why you stopped. -->
+The input-validation improvement fixed the two crashes, but it did not fix the detector's underlying classification problems.
 
+**Evasion attacks:**
+EV01 through EV09 still avoided a high-confidence AI result. Most were classified as `unsure`, and EV05 was classified as `human`. Only EV10 remained confidently classified as AI. These attacks exploit properties of the two detection signals, such as changing word variety, sentence structure, punctuation, perplexity, or combining human and AI text. A stronger version of the system would need signals that are less sensitive to superficial edits or a better calibrated combination of several independent signals.
 
+**False positives:**
+FP02 through FP07 remain the most serious failures. All six are genuine human-written inputs, but the system classified them as high-confidence AI. The affected writing includes formal human writing, careful writing from a non-native English speaker, student writing produced to a rubric, technical documentation, template-like human writing, and deliberately repetitive human writing. Both the language-model predictability signal and the stylometry signal can treat regular or predictable human writing as AI-like, so the problem is deeper than a single threshold.
+
+**Criterion 2 remains MISSED:**
+The required difference between the average AI and human combined scores was at least 0.30, but the measured separation remained about 0.0689. I would next investigate replacing or recalibrating the style signal because it provided almost no useful separation between the human and AI test sets. I did not make that change in this unit because the assignment requires one improvement, and changing the detector after the validation fix would make it impossible to attribute the before/after results to one intervention.
+
+**Criterion 3 remains MISSED:**
+The eight label-coverage inputs still produced only `unsure` and `ai`; none reached `human`. The lowest score remained above the 0.35 human threshold. I would next calibrate the signals on a larger set of known human and AI writing before adjusting the label thresholds. Simply moving the human threshold upward could make the label reachable, but it would not solve the weak score separation underneath it.
+
+**Other validation limitations:**
+Some unusual but non-empty strings, including punctuation-only, emoji-only, control-character, and extremely long inputs, are still accepted and scored. An object can also still be supplied as `creator_id`. A production service should define stricter limits and schema validation for these cases, but I stopped after the single measured improvement required by this unit.
 
 **The trade I'd make if this ran for real:**
-
-<!-- Two sentences. Fewer wrong accusations means more AI text getting through.
-     Say which way you'd go and WHO PAYS FOR IT. -->
+I would bias the production system toward fewer false accusations, even if that allowed more AI-generated text to pass as `unsure`. A false negative lets some AI text through, while a false positive directly places the cost of an unreliable detector on a real writer who may have to defend work they actually wrote.
 
 
 
